@@ -1,6 +1,9 @@
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
+from app.core.auth import CurrentUser
+from app.core.errors import AppError
 from app.models.generation import Generation
 from app.schemas.generation import GenerationResponse
 
@@ -9,8 +12,16 @@ class GenerationService:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create(self, mode: str, payload: dict, background_tasks=None) -> GenerationResponse:
-        generation = Generation(mode=mode, request_payload=payload, status="queued", progress=3)
+    async def create(self, mode: str, payload: dict, user: CurrentUser, background_tasks=None) -> GenerationResponse:
+        if user.generation_limit is not None:
+            result = await self.session.execute(
+                select(func.count()).select_from(Generation).where(Generation.user_login == user.login)
+            )
+            used = result.scalar_one()
+            if used >= user.generation_limit:
+                raise AppError(f"Лимит генераций исчерпан: {user.generation_limit}", 429)
+
+        generation = Generation(user_login=user.login, mode=mode, request_payload=payload, status="queued", progress=3)
         self.session.add(generation)
         await self.session.commit()
         await self.session.refresh(generation)

@@ -48,6 +48,7 @@ class GenerationPipeline:
             waveform = self.storage.waveform(audio_path)
             title = self._title_for(generation.mode, profile, generation.request_payload)
             track = Track(
+                user_login=generation.user_login,
                 title=title,
                 mode=generation.mode,
                 duration_seconds=generation.request_payload.get("duration_seconds", 30),

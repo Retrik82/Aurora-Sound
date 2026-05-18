@@ -14,6 +14,7 @@ export function PlayerDock() {
   const ref = useRef<HTMLDivElement | null>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlaying] = useState(false);
+  const currentUser = typeof window === "undefined" ? "" : localStorage.getItem("aurora-auth-user") ?? "";
 
   useEffect(() => {
     if (!track || !ref.current) return;
@@ -48,7 +49,7 @@ export function PlayerDock() {
           <div className="truncate font-semibold">{track.title}</div>
           <div ref={ref} className="mt-2" />
         </div>
-        <a href={`${API_BASE}/track/${track.id}/download`} className="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold">
+        <a href={`${API_BASE}/track/${track.id}/download?user=${encodeURIComponent(currentUser)}`} className="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold">
           <Download className="h-4 w-4" /> {t("player.download")}
         </a>
       </div>

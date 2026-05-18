@@ -12,7 +12,7 @@ Aurora Sound is a local AI music and ambient sound generation platform MVP. It i
 - Async generation jobs with polling
 - Stored generated tracks with waveform previews
 - Wavesurfer.js player dock with download support
-- Docker Compose with Redis, backend, worker, and frontend
+- Render-ready frontend and backend deployment
 
 ## Environment
 
@@ -105,18 +105,6 @@ LOCAL_INLINE_JOBS=true
 ```
 
 Restart backend after editing `.env`.
-
-## Docker Run
-
-```bash
-docker compose up --build
-```
-
-Open:
-
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
-- API docs: `http://localhost:8000/docs`
 
 ## Local Backend Internals
 

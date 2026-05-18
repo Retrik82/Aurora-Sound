@@ -11,6 +11,7 @@ class Generation(Base):
     __tablename__ = "generations"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    user_login: Mapped[str] = mapped_column(String(32), default="legacy", index=True)
     mode: Mapped[str] = mapped_column(String(32), index=True)
     status: Mapped[str] = mapped_column(String(32), default="queued", index=True)
     progress: Mapped[int] = mapped_column(default=0)

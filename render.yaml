@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: aurora-sound-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: MOCK_GENERATION
+        value: "true"
+      - key: LOCAL_INLINE_JOBS
+        value: "true"
+      - key: DATABASE_URL
+        value: "sqlite+aiosqlite:///./app.db"
+      - key: AUDIO_STORAGE_DIR
+        value: "./storage/audio"
+      - key: SOUNDSCAPE_ASSETS_DIR
+        value: "./assets/soundscape"
+      - key: BACKEND_PUBLIC_URL
+        value: "https://aurora-sound-backend.onrender.com"
+      - key: BACKEND_CORS_ORIGINS
+        value: "https://aurora-sound-frontend.onrender.com"
+      - key: OPENROUTER_MODEL
+        value: "openai/gpt-4o-mini"
+
+  - type: web
+    name: aurora-sound-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: "npm ci && npm run build"
+    startCommand: "npm run start -- -H 0.0.0.0 -p $PORT"
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: "https://aurora-sound-backend.onrender.com"

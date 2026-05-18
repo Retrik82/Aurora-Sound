@@ -7,7 +7,8 @@ import { listTracks } from "@/services/api";
 import { usePlayerStore } from "@/store/player-store";
 
 export default function LibraryPage() {
-  const { data, isLoading, error } = useQuery({ queryKey: ["tracks"], queryFn: listTracks });
+  const currentUser = typeof window === "undefined" ? "" : localStorage.getItem("aurora-auth-user");
+  const { data, isLoading, error } = useQuery({ queryKey: ["tracks", currentUser], queryFn: listTracks });
   const setTrack = usePlayerStore((state) => state.setTrack);
   const { t } = useI18n();
   return (

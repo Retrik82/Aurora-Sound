@@ -11,6 +11,7 @@ class Track(Base):
     __tablename__ = "tracks"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    user_login: Mapped[str] = mapped_column(String(32), default="legacy", index=True)
     title: Mapped[str] = mapped_column(String(160))
     mode: Mapped[str] = mapped_column(String(32), index=True)
     duration_seconds: Mapped[int] = mapped_column(Integer)

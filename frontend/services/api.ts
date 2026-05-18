@@ -1,4 +1,5 @@
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const AUTH_STORAGE_KEY = "aurora-auth-user";
 
 export type GenerationStatus = "queued" | "analyzing" | "prompting" | "generating" | "processing" | "completed" | "failed";
 
@@ -25,10 +26,22 @@ export type Track = {
   created_at: string;
 };
 
+export type GenerationUsage = {
+  login: string;
+  used: number;
+  limit: number | null;
+  remaining: number | null;
+};
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const user = typeof window === "undefined" ? "" : localStorage.getItem(AUTH_STORAGE_KEY);
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
-    headers: { "Content-Type": "application/json", ...(options?.headers ?? {}) }
+    headers: {
+      "Content-Type": "application/json",
+      ...(user ? { "X-Aurora-User": user } : {}),
+      ...(options?.headers ?? {})
+    }
   });
   if (!res.ok) {
     const error = await res.json().catch(() => ({ detail: res.statusText }));
@@ -51,4 +64,8 @@ export function getTrack(id: string) {
 
 export function listTracks() {
   return request<Track[]>("/tracks");
+}
+
+export function getGenerationUsage() {
+  return request<GenerationUsage>("/account/generation-usage");
 }
