@@ -31,27 +31,27 @@ export function GeneratePanel({
   const { t } = useI18n();
   const resolvedStatus = status ? t(`status.${status}`) : t("panel.ready");
   return (
-    <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-      <div className="glass rounded-[2rem] p-6 md:p-8">
-        <p className="text-sm uppercase tracking-[0.35em] text-cyan">{eyebrow}</p>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">{title}</h1>
+    <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="grid gap-4 sm:gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <div className="glass rounded-[1.5rem] p-4 sm:rounded-[2rem] sm:p-6 md:p-8">
+        <p className="text-xs uppercase tracking-[0.24em] text-cyan sm:text-sm sm:tracking-[0.35em]">{eyebrow}</p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl md:text-6xl">{title}</h1>
         <div className="mt-8 space-y-6">{children}</div>
         <button
           onClick={onGenerate}
           disabled={loading}
-          className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-white px-6 py-4 font-semibold text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 font-semibold text-ink transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
           {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <WandSparkles className="h-5 w-5" />}
           {t("panel.generate")}
         </button>
       </div>
-      <div className="glass rounded-[2rem] p-6">
-        <div className="mb-6 flex items-center justify-between">
+      <div className="glass rounded-[1.5rem] p-4 sm:rounded-[2rem] sm:p-6">
+        <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <div className="text-sm uppercase tracking-[0.28em] text-slate-400">{t("panel.generation")}</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400 sm:text-sm sm:tracking-[0.28em]">{t("panel.generation")}</div>
             <div className="mt-2 text-2xl font-semibold">{resolvedStatus}</div>
           </div>
-          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/10">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/10 sm:h-14 sm:w-14">
             <WandSparkles className="h-6 w-6 text-cyan" />
           </div>
         </div>
@@ -63,7 +63,7 @@ export function GeneratePanel({
           <div className="mt-6 rounded-3xl border border-white/10 bg-black/20 p-5">
             <div className="text-xl font-semibold">{track.title}</div>
             <div className="mt-2 text-sm text-slate-400">{track.bpm} BPM · {track.key} · {track.mood}</div>
-            <div className="mt-5 flex h-20 items-end gap-1">
+            <div className="mt-5 flex h-20 items-end gap-0.5 sm:gap-1">
               {track.waveform.map((value, index) => (
                 <div key={index} className="flex-1 rounded-full bg-cyan/70" style={{ height: `${Math.max(8, value * 76)}px` }} />
               ))}

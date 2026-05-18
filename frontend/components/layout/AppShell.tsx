@@ -40,9 +40,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden pb-36">
-      <div className="fixed right-4 top-4 z-40">
-        <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/35 px-2 py-2 backdrop-blur">
+    <div className="min-h-screen overflow-x-hidden pb-44 lg:pb-36">
+      <div className="fixed left-3 right-3 top-3 z-40 sm:left-auto sm:right-4 sm:top-4">
+        <div className="ml-auto flex w-full items-center justify-between gap-2 rounded-2xl border border-white/10 bg-black/55 px-2 py-2 backdrop-blur sm:w-auto sm:justify-start sm:bg-black/35">
+          <Link href="/" className="flex min-w-0 items-center gap-2 px-1 lg:hidden">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-aurora shadow-glow">
+              <Waves className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <span className="truncate text-sm font-semibold">Aurora Sound</span>
+          </Link>
           <div className="hidden items-center gap-2 border-r border-white/10 px-2 text-xs font-semibold text-slate-300 sm:flex">
             <User className="h-4 w-4" aria-hidden="true" />
             {currentUser}
@@ -50,7 +56,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               Осталось: {usage?.remaining === null ? "безлимит" : usage?.remaining ?? "..."}
             </span>
           </div>
-          <div className="flex items-center gap-2 border-r border-white/10 pr-2">
+          <div className="flex shrink-0 items-center gap-1 border-r border-white/10 pr-2 sm:gap-2">
             <Globe className="h-4 w-4 text-slate-300" aria-hidden="true" />
             <span className="sr-only">{t("lang.label")}</span>
             <button onClick={() => setLocale("ru")} className={`rounded-lg px-2 py-1 text-xs font-semibold ${locale === "ru" ? "bg-white text-ink" : "text-slate-300 hover:bg-white/10"}`}>RU</button>
@@ -93,7 +99,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
       </aside>
-      <main className="mx-auto max-w-7xl px-4 py-5 lg:ml-72 lg:px-8">{children}</main>
+      <main className="mx-auto max-w-7xl px-3 pb-6 pt-20 sm:px-4 lg:ml-72 lg:px-8 lg:py-5">{children}</main>
+      <nav className="fixed bottom-3 left-3 right-3 z-40 rounded-3xl border border-white/10 bg-black/70 p-2 backdrop-blur lg:hidden" aria-label="Основная навигация">
+        <div className="flex gap-1 overflow-x-auto overscroll-x-contain">
+          {nav.map((item) => {
+            const active = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex min-w-[4.75rem] flex-1 flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors ${active ? "bg-white text-ink" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                <span className="max-w-full truncate">{t(item.key)}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
       <PlayerDock />
     </div>
   );

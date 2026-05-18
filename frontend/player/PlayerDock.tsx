@@ -36,20 +36,20 @@ export function PlayerDock() {
 
   if (!track) return null;
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-2 lg:left-72">
-      <div className="relative mx-auto max-w-7xl rounded-3xl glass p-4">
+    <div className="fixed bottom-24 left-0 right-0 z-50 px-3 pb-2 pt-2 lg:bottom-0 lg:left-72 lg:px-4 lg:pb-4">
+      <div className="relative mx-auto max-w-7xl rounded-3xl glass p-3 sm:p-4">
       <button onClick={clearTrack} className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-xl bg-white/10 text-slate-200 transition hover:bg-white/20" aria-label={t("player.close")}>
         <X className="h-4 w-4" />
       </button>
-      <div className="flex flex-col gap-4 md:flex-row md:items-center">
-        <button onClick={() => wavesurfer.current?.playPause()} className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-ink">
+      <div className="flex flex-col gap-3 pr-9 md:flex-row md:items-center md:pr-0">
+        <button onClick={() => wavesurfer.current?.playPause()} className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white text-ink">
           {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
         </button>
         <div className="min-w-0 flex-1">
           <div className="truncate font-semibold">{track.title}</div>
           <div ref={ref} className="mt-2" />
         </div>
-        <a href={`${API_BASE}/track/${track.id}/download?user=${encodeURIComponent(currentUser)}`} className="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold">
+        <a href={`${API_BASE}/track/${track.id}/download?user=${encodeURIComponent(currentUser)}`} className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold md:w-auto">
           <Download className="h-4 w-4" /> {t("player.download")}
         </a>
       </div>

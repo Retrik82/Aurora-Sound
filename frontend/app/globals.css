@@ -4,8 +4,14 @@
 
 :root { color-scheme: dark; }
 
+html {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.34), transparent 34rem),
     radial-gradient(circle at 85% 15%, rgba(103, 232, 249, 0.2), transparent 28rem),
@@ -43,3 +49,11 @@ textarea.premium-input {
 }
 
 .range { accent-color: #8b5cf6; }
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
