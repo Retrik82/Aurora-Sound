@@ -56,4 +56,12 @@ input,
 select,
 textarea {
   -webkit-tap-highlight-color: transparent;
+  max-width: 100%;
+}
+
+label,
+input,
+select,
+textarea {
+  min-width: 0;
 }
